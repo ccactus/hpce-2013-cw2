@@ -1,9 +1,9 @@
 #include "fourier_transform.hpp"
-
+#include <sys/types.h>
 #include <map>
-
+#include <cassert>
 #include <iostream>
-
+#include <stdexcept>
 namespace hpce
 {
 
@@ -42,7 +42,8 @@ complex_vec_t fourier_transform::backwards(const complex_vec_t &in, size_t n) co
 		n=in.size();
 	}else{
 		if(n>in.size())
-			throw std::invalid_argument("Output size must be less than or equal to input size.");
+			assert(1);		
+	//throw std::invalid_argument("Output size must be less than or equal to input size.");
 	}
 		
 	complex_vec_t result(in.size());
@@ -60,7 +61,7 @@ void fourier_transform::RegisterTransformFactory(std::string name, fourier_trans
 	auto it=s_factories.find(name);
 	if(it!=s_factories.end())
 		throw std::invalid_argument("Factory already registered with that name.");
-	
+//assert(1);	
 	s_factories.insert(std::make_pair(name, factory));
 }
 
@@ -83,7 +84,7 @@ std::shared_ptr<fourier_transform> fourier_transform::CreateTransform(const std:
 	auto it=s_factories.find(name);
 	if(it==s_factories.end())
 		throw std::invalid_argument("No factory registered with that name.");
-	
+//	assert(1);
 	return it->second();
 }
 
